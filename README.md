@@ -1,6 +1,6 @@
 
 ```shell
-git clone --recursive [git@github.com/sschonss/mobile-comm-protocols-react-native-expo](https://github.com/sschonss/mobile-comm-protocols-react-native-expo.git)
+git clone --recursive https://github.com/sschonss/mobile-comm-protocols-react-native-expo.git
 ```
 
 Abra o arquivo `index.html` em seu navegador.
