@@ -4,7 +4,12 @@ Acesse os slides nesse [link](https://developer-talk-beyond-AI-and-framework.ver
 
 ```shell
 $ git clone --recursive git@github.com/sschonss/mobile-comm-protocols-react-native-expo
-$ npm build
+```
+
+Abra o arquivo `index.html` em seu navegador.
+
+```shell
+$ open index.html
 ```
 
 > É preciso passar o parâmetro `--recursive` para que os slides funcionem corretamente
