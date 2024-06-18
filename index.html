@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comunicação de Aplicações com Expo</title>
+  <link rel="stylesheet" href="reveal.js/dist/reset.css">
+  <link rel="stylesheet" href="reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="reveal.js/dist/theme/night.css">
+  <link rel=" stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/base16/dracula.min.css"
+    integrity="sha512-zKpFlhUX8c+WC6H/XTJavnEpWFt2zH9BU9vu0Hry5Y+SEgG21pRMFcecS7DgDXIegXBQ3uK9puwWPP3h6WSR9g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:slnt,wght@-10..0,100..900&family=JetBrains+Mono&display=swap">
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section class="section-title">
+        <h3>Comunicação de Aplicações com <span style="color: #f7df1e;">Expo</span></h3>
+        <h6 class="name">Luiz Schons</h6>
+      </section>
+
+      <section>
+        <h3>
+          Aplicações com <span style="color: #f7df1e;">Expo</span>
+        </h3>
+        <p>
+          O Expo é uma plataforma de código aberto para criar aplicativos universais nativos para Android, iOS e web
+          com JavaScript/Typescript e React Native.
+        </p>
+      </section>
+
+      <section>
+        <section data-auto-animate class="section-title">
+          <h3>Arquitetura de Comunicação</h3>
+        </section>
+
+        <section>
+          <div data-auto-animate class="lists">
+            <p>
+              Provavelmente você já ouviu falar de alguns arquiteturas de comunicação, como REST, GraphQL e outros.
+            </p>
+          </div>
+        </section>
+
+        <section>
+          <h4>
+            <p>
+              Mas como eles funcionam no contexto de uma aplicação <span style="color: #f7df1e;">Expo</span>?
+            </p>
+          </h4>
+        </section>
+
+      </section>
+
+      <!-- REST -->
+
+      <section>
+        <section data-auto-animate class="section-title">
+          <h3>REST</h3>
+        </section>
+
+        <section>
+          <div data-auto-animate class="lists">
+            <p>
+              REST é um estilo de arquitetura que utiliza os verbos HTTP para comunicação entre o cliente e o servidor.
+            </p>
+            <img src="https://miro.medium.com/v2/resize:fit:1358/0*1xZszp_OqUMrfRsV.png" alt="REST" width="500" />
+          </div>
+        </section>
+        <section>
+          <p>
+            Segue um exemplo de uma requisição GET utilizando a biblioteca <span style="color: #f7df1e;">axios</span>:
+          </p>
+        </section>
+
+        <section>
+          <pre style="padding: 10px; background-color: #282a36; color: #f8f8f2;">
+                      <code class="javascript" style="font-size: 0.8em;">
+  useEffect(() => {
+  axios.get('https://jsonplaceholder.typicode.com/posts')
+  .then(response => setData(response.data))
+  .catch(console.error);
+  }, []);
+  
+  return (
+    <View>
+      <List>
+        {data.map(item => (
+          <ListItem key={item.id}>{item.title}</ListItem>
+        ))}
+      </List>
+    </View>
+  </code>
+                  </pre>
+        </section>
+      </section>
+
+      <!-- GraphQL -->
+
+      <section>
+        <section data-auto-animate class="section-title">
+          <h3>GraphQL</h3>
+        </section>
+
+        <section>
+          <div data-auto-animate class="lists">
+            <p>
+              GraphQL é uma linguagem de consulta para APIs, que permite solicitar exatamente os dados necessários e
+              nada mais.
+            </p>
+            <img src="https://miro.medium.com/v2/resize:fit:1400/0*zvlA9zex_weppmhF.png" alt="GraphQL" width="500" />
+          </div>
+        </section>
+
+        <section>
+          <p>
+            Segue um exemplo de uma requisição GET utilizando a biblioteca <span
+              style="color: #f7df1e;">apollo-client</span>:
+          </p>
+        </section>
+
+        <section>
+          <pre style="padding: 10px; background-color: #282a36; color: #f8f8f2;">
+                      <code class="javascript
+                      " style="font-size: 0.8em;">
+  useEffect(() => {
+    client.query({
+      query: gql`
+        query {
+          posts {
+            id
+            title
+          }
+        }
+      `
+    }).then(response => setData(response.data.posts))
+    .catch(console.error);
+  }, []);
+
+  return (
+    <View>
+      <List>
+        {data.map(item => (
+          <ListItem key={item.id}>{item.title}</ListItem>
+        ))}
+      </List>
+    </View>
+  );
+  </code>
+                  </pre>
+        </section>
+
+      </section>
+
+      <!-- WebSocket -->
+
+      <section>
+        <section data-auto-animate class="section-title">
+          <h3>WebSocket</h3>
+        </section>
+
+        <section>
+          <div data-auto-animate class="lists">
+            <p>
+              WebSocket é uma tecnologia que fornece um canal de comunicação bidirecional e full-duplex sobre uma única
+              conexão TCP.
+            </p>
+            <img
+              src="https://learn.microsoft.com/pt-br/azure/application-gateway/media/application-gateway-websocket/websocket.png"
+              alt="WebSocket" width="500" />
+          </div>
+        </section>
+
+        <section>
+          <p>
+            Segue um exemplo de uma conexão WebSocket utilizando a biblioteca <span
+              style="color: #f7df1e;">expo-websocket</span>:
+          </p>
+        </section>
+
+        <section>
+          <pre style="padding: 10px; background-color: #282a36; color: #f8f8f2;">
+                      <code class="javascript
+
+                      " style="font-size: 0.8em;">
+
+  useEffect(() => {
+    const ws = new WebSocket('wss://echo.websocket.org');
+    ws.onopen = () => {
+      ws.send('Hello, World!');
+    };
+    ws.onmessage = (event) => {
+      console.log(event.data);
+    };
+  }, []);
+
+  return (
+    <View>
+      <Text>WebSocket</Text>
+    </View>
+  );
+
+  </code>
+                  </pre>
+        </section>
+
+      </section>
+
+      <!-- gRPC -->
+
+      <section>
+        <section data-auto-animate class="section-title">
+          <h3>gRPC</h3>
+        </section>
+
+        <section>
+          <div data-auto-animate class="lists">
+            <p>
+              gRPC é um framework de comunicação de código aberto desenvolvido pelo Google.
+            </p>
+            <p>
+              No entanto, o suporte para gRPC em React Native é limitado. Uma abordagem comum é usar um serviço backend
+              para
+              intermediar as chamadas gRPC.
+            </p>
+          </div>
+        </section>
+        <section>
+          <p>
+            Por isso eu trouxe um exemplo em <span style="color: #f7df1e;">
+              Swift
+            </span>
+          </p>
+          <img src="https://grpc.io/img/landing-2.svg" alt="gRPC" width="500" />
+        </section>
+
+        <section>
+          <pre style="padding: 10px; background-color: #282a36; color: #f8f8f2;">
+                                <code class="swfit
+          
+                                " style="font-size: 0.8em;">
+import GRPC
+import NIO
+
+let group = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+let channel = ClientConnection.insecure(group: group)
+  .connect(host: "localhost", port: 50051)
+
+let client = ExampleServiceClient(channel: channel)
+let request = HelloRequest.with {
+  $0.name = "World"
+}
+
+let response = client.sayHello(request).response
+
+response.whenSuccess { response in
+  print("Received: \(response.message)")
+}
+
+response.whenFailure { error in
+  print("Error: \(error)")
+}
+
+try! channel.close().wait()
+try! group.syncShutdownGracefully()
+
+                                </code>
+                            </pre>
+        </section>
+      </section>
+
+      <!-- MQTT -->
+      <section>
+        <section data-auto-animate class="section-title">
+          <h3>MQTT</h3>
+        </section>
+
+        <section>
+          <div data-auto-animate class="lists">
+            <p>
+              MQTT é um protocolo leve de comunicação utilizado principalmente em IoT (Internet das Coisas) para
+              comunicação entre
+              dispositivos com baixa largura de banda
+            </p>
+            <img
+              src="https://www.twilio.com/content/dam/twilio-com/global/en/blog/legacy/2023/what-is-mqtt/MQTT_Diagram_gOmDdU4.png"
+              alt="MQTT" width="500" />
+          </div>
+
+        </section>
+
+        <section>
+          <p>
+            Segue um exemplo de uma conexão MQTT utilizando a biblioteca <span
+              style="color: #f7df1e;">react-native-mqtt</span>:
+          </p>
+        </section>
+
+        <section>
+          <pre style="padding: 10px; background-color: #282a36; color: #f8f8f2;">
+                      <code class="javascript" style="font-size: 0.8em;">
+  useEffect(() => {
+    const client = new Paho.MQTT.Client('broker.mqttdashboard.com', 8000, 'clientId');
+    client.connect({ onSuccess: () => {
+      client.subscribe('topic');
+      client.send('Hello, World!');
+    }});
+    client.onMessageArrived = (message) => {
+      console.log(message.payloadString);
+    };
+  }, []);
+
+  return (
+    <View>
+      <Text>MQTT</Text>
+    </View>
+  );
+  </code>
+                  </pre>
+
+        </section>
+      </section>
+
+      <!-- WebRTC -->
+
+      <section>
+        <section data-auto-animate class="section-title">
+          <h3>WebRTC</h3>
+        </section>
+
+        <section>
+          <div data-auto-animate class="lists">
+            <p>
+              WebRTC é uma tecnologia que permite comunicação de áudio, vídeo e dados em tempo real diretamente entre
+              navegadores e dispositivos.
+            </p>
+            <img src="https://resi.io/wp-content/uploads/2022/05/what-is-web-rtc-resi.png" alt="WebRTC" width="500" />
+          </div>
+        </section>
+
+        <section>
+          <p>
+            Segue um exemplo de uma conexão WebRTC utilizando a biblioteca <span
+              style="color: #f7df1e;">react-native-webrtc</span>:
+          </p>
+        </section>
+
+        <section>
+          <pre style="padding: 10px; background-color: #282a36; color: #f8f8f2;">
+                      <code class="javascript" style="font-size: 0.8em;">
+  useEffect(() => {
+    const configuration = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
+    const peerConnection = new RTCPeerConnection(configuration);
+    peerConnection.onicecandidate = (event) => {
+      if (event.candidate) {
+        console.log(event.candidate);
+      }
+    };
+  }, []);
+
+  return (
+    <View>
+      <Text>WebRTC</Text>
+    </View>
+  );
+  </code>
+                  </pre>
+        </section>
+      </section>
+
+      <!-- Conclusão -->
+
+      <section>
+        <section data-auto-animate class="section-title">
+          <h3>Conclusão</h 3>
+        </section>
+
+        <section>
+          <div data-auto-animate class="lists">
+            <p>
+              Existem diversas formas de comunicação entre aplicações, e cada uma delas tem suas vantagens e
+              desvantagens.
+            </p>
+            <p>
+              A escolha da arquitetura de comunicação depende do contexto da aplicação e dos requisitos do projeto.
+            </p>
+          </div>
+        </section>
+
+        <section>
+          <p>
+            Espero que este conteúdo tenha sido útil para vocês. Obrigado!
+          </p>
+        </section>
+      </section>
+
+      <!-- Fim -->
+
+      <section>
+        <section data-auto-animate class="section-title">
+          <h3>Obrigado!</h3>
+        </section>
+
+        <section>
+          <h6 class="name">Luiz Schons</h6>
+          <img src="./assets/img/qrcode.png" alt="QR Code" width="200" />
+
+          <script src="reveal.js/dist/reveal.js"></script>
+          <script src="reveal.js/plugin/highlight/highlight.js"></script>
+          <script src="reveal.js/plugin/notes/notes.js"></script>
+          <script src="reveal.js/plugin/highlight/highlight.js"></script>
+
+          <script>
+            Reveal.initialize({
+              hash: true,
+              mouseWheel: true,
+              overview: false,
+              history: true,
+              plugins: [RevealHighlight, RevealNotes],
+              slideNumber: 'c/t',
+              autoPlayMedia: true,
+            });
+
+            Reveal.configure({
+              keyboard: {
+                38: 'prev',
+                40: 'next',
+              },
+            });
+          </script>
+
+</body>
+
+</html>
